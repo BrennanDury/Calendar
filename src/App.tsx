@@ -26,9 +26,6 @@ class App extends React.Component<{}, AppState> {
         return (
             <div className="App">
                 <div className="grid-container">
-                    <div className="classList label">
-                        Classes
-                    </div>
                     <div className="monday label">
                         Monday
                     </div>

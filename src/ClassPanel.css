@@ -1,3 +1,5 @@
-.class {
+
+.wrapper {
     grid-column: 1;
+    width : 120px;
 }
