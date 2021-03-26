@@ -8,8 +8,8 @@ class AddClassButton extends React.Component<AddClassButtonProps, {}> {
 
     render() {
         return (
-            <button onClick={this.props.buttonClick} >
-
+            <button onClick={this.props.buttonClick}>
+                Add a Class
             </button>
         );
     }

@@ -1,7 +1,14 @@
 import React from 'react';
 
+interface ClassPanelProps {
+    assignmentAdd(assignment : string) : void;
+}
 
-class ClassPanel extends React.Component<{},{}> {
+class ClassPanel extends React.Component<ClassPanelProps, {}> {
+
+    add = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.props.assignmentAdd(event.target.value);
+    }
 
     render() {
         return (
@@ -9,7 +16,7 @@ class ClassPanel extends React.Component<{},{}> {
                 <input className="class" placeholder="Class Name">
 
                 </input>
-                <input className="addAssignment" placeholder="Add an assignment">
+                <input className="addAssignment" placeholder="Add an assignment" onChange={this.add}>
 
                 </input>
             </div>

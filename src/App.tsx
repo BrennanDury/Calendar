@@ -2,9 +2,12 @@ import React from 'react';
 import './App.css';
 import ClassWeek from './ClassWeek';
 import AddClassButton from './AddClassButton';
+import DatePicker from "./DatePicker";
 
 interface AppState {
     numClasses : number;
+    date : string;
+    assignments : string[];
 }
 
 class App extends React.Component<{}, AppState> {
@@ -12,7 +15,9 @@ class App extends React.Component<{}, AppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            numClasses : 0
+            numClasses : 0,
+            date : "",
+            assignments : []
         };
     }
 
@@ -22,7 +27,19 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    render() {
+    dateSelected = (selected : string) => {
+        this.setState({
+            date : selected
+        });
+    }
+
+    assignmentAdd = (assignment : string) => {
+        this.setState ({
+            assignments : this.state.assignments.concat(assignment)
+        });
+    }
+
+        render() {
         return (
             <div className="App">
                 <div className="grid-container">
@@ -48,7 +65,8 @@ class App extends React.Component<{}, AppState> {
                         Sunday
                     </div>
                 </div>
-                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek/>)}
+                <DatePicker dateSelected={this.dateSelected} />
+                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd}/>)}
                 <AddClassButton buttonClick={this.buttonClick}/>
             </div>
         );
