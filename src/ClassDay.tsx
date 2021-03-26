@@ -10,49 +10,49 @@ class ClassDay extends React.Component<ClassDayProps,{}> {
     render() {
         if (this.props.column === 1) {
             return (
-                <div className="one">
+                <div className="one day">
                     {this.props.column}
                 </div>
             );
         }
         if (this.props.column === 2) {
             return (
-                <div className="two">
+                <div className="two day">
                     {this.props.column}
                 </div>
             );
         }
         if (this.props.column === 3) {
             return (
-                <div className="three">
+                <div className="three day">
                     {this.props.column}
                 </div>
             );
         }
         if (this.props.column === 4) {
             return (
-                <div className="four">
+                <div className="four day">
                     {this.props.column}
                 </div>
             );
         }
         if (this.props.column === 5) {
             return (
-                <div className="five">
+                <div className="five day">
                     {this.props.column}
                 </div>
             );
         }
         if (this.props.column === 6) {
             return (
-                <div className="six">
+                <div className="six day">
                     {this.props.column}
                 </div>
             );
         }
         if (this.props.column === 7) {
             return (
-                <div className="seven">
+                <div className="seven day">
                     {this.props.column}
                 </div>
             );

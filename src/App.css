@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-size: 12px;
 }
 
 .App-logo {
@@ -35,4 +36,41 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.label {
+  height : 20px;
+}
+
+.monday {
+  grid-column: 2;
+}
+
+.tuesday {
+  grid-column: 3;
+}
+
+.wednesday {
+  grid-column: 4;
+}
+
+.thursday {
+  grid-column: 5;
+}
+
+.friday {
+  grid-column: 6;
+}
+
+.saturday {
+  grid-column: 7;
+}
+
+.sunday {
+  grid-column: 8;
 }
