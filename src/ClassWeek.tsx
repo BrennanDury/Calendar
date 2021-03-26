@@ -5,6 +5,7 @@ import ClassPanel from "./ClassPanel";
 
 interface ClassWeekProps {
     assignmentAdd(selected : string) : void;
+    id : number;
 }
 
 class ClassWeek extends React.Component<ClassWeekProps, {}> {
@@ -12,7 +13,7 @@ class ClassWeek extends React.Component<ClassWeekProps, {}> {
     render() {
         return (
         <div>
-            <ClassPanel assignmentAdd={this.props.assignmentAdd}/>
+            <ClassPanel assignmentAdd={this.props.assignmentAdd} id={this.props.id}/>
             <div className = "class-grid-container" >
                 <ClassDay column = {1}/>
                 <ClassDay column = {2}/>

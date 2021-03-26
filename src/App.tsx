@@ -66,7 +66,7 @@ class App extends React.Component<{}, AppState> {
                     </div>
                 </div>
                 <DatePicker dateSelected={this.dateSelected} />
-                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd}/>)}
+                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd} id={index}/>)}
                 <AddClassButton buttonClick={this.buttonClick}/>
             </div>
         );

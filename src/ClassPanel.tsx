@@ -2,12 +2,28 @@ import React from 'react';
 
 interface ClassPanelProps {
     assignmentAdd(assignment : string) : void;
+    id : number;
 }
 
-class ClassPanel extends React.Component<ClassPanelProps, {}> {
+interface ClassPanelState {
+    assignment : string;
+}
 
-    add = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.props.assignmentAdd(event.target.value);
+class ClassPanel extends React.Component<ClassPanelProps, ClassPanelState> {
+
+    type = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState( {
+            assignment : event.target.value
+        });
+    }
+
+    add = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.keyCode === 13) { //enter
+            this.props.assignmentAdd(this.state.assignment);
+            event.preventDefault();
+            let element = document.getElementById(this.props.id.toString()) as HTMLInputElement;
+            element.value = "";
+        }
     }
 
     render() {
@@ -16,7 +32,7 @@ class ClassPanel extends React.Component<ClassPanelProps, {}> {
                 <input className="class" placeholder="Class Name">
 
                 </input>
-                <input className="addAssignment" placeholder="Add an assignment" onChange={this.add}>
+                <input id={this.props.id.toString()} className="addAssignment" placeholder="Add an assignment" onChange={this.type} onKeyDown={this.add}>
 
                 </input>
             </div>
