@@ -1,0 +1,27 @@
+.one {
+    grid-column: 1;
+}
+
+.two {
+    grid-column: 2;
+}
+
+.three {
+    grid-column: 3;
+}
+
+.four {
+    grid-column: 4;
+}
+
+.five {
+    grid-column: 5;
+}
+
+.six {
+    grid-column: 6;
+}
+
+.seven {
+    grid-column: 7;
+}
