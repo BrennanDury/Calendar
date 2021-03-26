@@ -2,12 +2,9 @@ import React from 'react';
 import ClassDay from './ClassDay';
 import './ClassWeek.css';
 
-interface ClassWeekProps {
-    //numClasses : number;
-}
 
-class ClassWeek extends React.Component<ClassWeekProps,{}> {
 
+class ClassWeek extends React.Component<{},{}> {
 
     render() {
         return (
