@@ -7,7 +7,7 @@ import DatePicker from "./DatePicker";
 interface AppState {
     numClasses : number;
     date : string;
-    assignments : string[];
+    assignments : Map<number, string[]>;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -17,11 +17,12 @@ class App extends React.Component<{}, AppState> {
         this.state = {
             numClasses : 0,
             date : "",
-            assignments : []
+            assignments : new Map<number, string[]>()
         };
     }
 
     buttonClick = () => {
+        this.state.assignments.set(this.state.numClasses, []);
         this.setState({
             numClasses : this.state.numClasses + 1
         });
@@ -33,13 +34,33 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    assignmentAdd = (assignment : string) => {
-        this.setState ({
-            assignments : this.state.assignments.concat(assignment)
+    assignmentAdd = (assignment : string, classNum : number) => {
+        let temp : Map<number, string[]> = this.state.assignments;
+        this.makeEmptyIfUndefined(temp.get(classNum)).push(assignment);
+        this.setState( {
+            assignments : temp
         });
     }
 
-        render() {
+    renderDatePickerIfThereIsAClass() {
+        if (this.state.numClasses !== 0) {
+            return <DatePicker dateSelected={this.dateSelected}/>;
+        } else {
+            return <div/>;
+        }
+    }
+
+    makeEmptyIfUndefined(list : string[] | undefined) : string[] {
+        if (list === undefined) {
+            return [];
+        }
+        else {
+            return list;
+        }
+    }
+
+    render() {
+        // @ts-ignore
         return (
             <div className="App">
                 <div className="grid-container">
@@ -65,8 +86,8 @@ class App extends React.Component<{}, AppState> {
                         Sunday
                     </div>
                 </div>
-                <DatePicker dateSelected={this.dateSelected} />
-                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd} id={index}/>)}
+                {this.renderDatePickerIfThereIsAClass()}
+                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd} id={index} assignments={this.makeEmptyIfUndefined(this.state.assignments.get(index))}/>)}
                 <AddClassButton buttonClick={this.buttonClick}/>
             </div>
         );
