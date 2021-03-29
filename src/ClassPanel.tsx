@@ -1,8 +1,9 @@
 import React from 'react';
+import CalendarEvent from "./CalendarEvent";
 
 interface ClassPanelProps {
-    assignmentAdd(assignment : string, classNum : number) : void;
-    id : number;
+    assignmentAdd(date : string, classNum : number, calEvent : CalendarEvent) : void;
+    classNum : number;
 }
 
 interface ClassPanelState {
@@ -19,9 +20,25 @@ class ClassPanel extends React.Component<ClassPanelProps, ClassPanelState> {
 
     add = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.keyCode === 13) { //enter
-            this.props.assignmentAdd(this.state.assignment, this.props.id);
+            let assignment : string = this.state.assignment;
+            let date : string = assignment.substring(0, assignment.indexOf(" "));
+            assignment = assignment.substring(assignment.indexOf(" ") + 1);
+            let startHour = assignment.substring(0, assignment.indexOf(":"));
+            assignment = assignment.substring(assignment.indexOf(":") + 1);
+            let startMinute = assignment.substring(0, assignment.indexOf(" "));
+            assignment = assignment.substring(assignment.indexOf(" ") + 1);
+            let endHour = assignment.substring(0, assignment.indexOf(":"));
+            assignment = assignment.substring(assignment.indexOf(":") + 1);
+            let endMinute = assignment.substring(0, assignment.indexOf(" "));
+            assignment = assignment.substring(assignment.indexOf(" ") + 1);
+            let name = assignment;
+            let classNum : number = this.props.classNum;
+            let calEvent : CalendarEvent = new CalendarEvent(startHour, startMinute, endHour, endMinute, name);
+
+            this.props.assignmentAdd(date, classNum, calEvent);
+
             event.preventDefault();
-            let element = document.getElementById(this.props.id.toString()) as HTMLInputElement;
+            let element = document.getElementById(this.props.classNum.toString()) as HTMLInputElement;
             element.value = "";
         }
     }
@@ -32,7 +49,7 @@ class ClassPanel extends React.Component<ClassPanelProps, ClassPanelState> {
                 <input className="class" placeholder="Class Name">
 
                 </input>
-                <input id={this.props.id.toString()} className="addAssignment" placeholder="Add an assignment" onChange={this.type} onKeyDown={this.add}>
+                <input id={this.props.classNum.toString()} className="addAssignment" placeholder="Add an assignment" onChange={this.type} onKeyDown={this.add}>
 
                 </input>
             </div>
@@ -40,5 +57,7 @@ class ClassPanel extends React.Component<ClassPanelProps, ClassPanelState> {
         );
     }
 }
+
+
 
 export default ClassPanel;

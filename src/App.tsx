@@ -3,11 +3,12 @@ import './App.css';
 import ClassWeek from './ClassWeek';
 import AddClassButton from './AddClassButton';
 import DatePicker from "./DatePicker";
+import CalendarEvent from "./CalendarEvent";
 
 interface AppState {
     numClasses : number;
     date : string;
-    assignments : Map<number, string[]>;
+    classes : Map<number, Map<string, CalendarEvent[]>>; //class number (0,1,2...) to date as a string to list of calendar events
 }
 
 class App extends React.Component<{}, AppState> {
@@ -17,12 +18,12 @@ class App extends React.Component<{}, AppState> {
         this.state = {
             numClasses : 0,
             date : "",
-            assignments : new Map<number, string[]>()
+            classes : new Map<number, Map<string, CalendarEvent[]>>()
         };
     }
 
-    buttonClick = () => {
-        this.state.assignments.set(this.state.numClasses, []);
+    addClass = () => {
+        this.state.classes.set(this.state.numClasses, new Map<string, CalendarEvent[]>());
         this.setState({
             numClasses : this.state.numClasses + 1
         });
@@ -34,12 +35,36 @@ class App extends React.Component<{}, AppState> {
         });
     }
 
-    assignmentAdd = (assignment : string, classNum : number) => {
-        let temp : Map<number, string[]> = this.state.assignments;
-        this.makeEmptyIfUndefined(temp.get(classNum)).push(assignment);
-        this.setState( {
-            assignments : temp
+    assignmentAdd = (date : string, classNum : number, calEvent : CalendarEvent) => {
+        let temp : Map<number, Map<string, CalendarEvent[]>> = this.state.classes;
+        let classMap : Map<string, CalendarEvent[]> = this.makeMapEmptyIfUndefined(temp.get(classNum));
+        let array : CalendarEvent[] = this.makeListEmptyIfUndefined(classMap.get(date))
+        array.push(calEvent);
+        // @ts-ignore
+        temp.get(classNum).set(date, array);
+        this.setState({
+            classes : temp
         });
+        // @ts-ignore
+        //alert(this.state.classes.get(0).get("2021-03-13")[0].endHour);
+    }
+
+    makeMapEmptyIfUndefined(map : Map<string, CalendarEvent[]> | undefined) : Map<string, CalendarEvent[]> {
+        if (map === undefined) {
+            return new Map<string, CalendarEvent[]>();
+        }
+        else {
+            return map;
+        }
+    }
+
+    makeListEmptyIfUndefined(list : CalendarEvent[] | undefined) : CalendarEvent[] {
+        if (list === undefined) {
+            return [];
+        }
+        else {
+            return list;
+        }
     }
 
     renderDatePickerIfThereIsAClass() {
@@ -50,16 +75,13 @@ class App extends React.Component<{}, AppState> {
         }
     }
 
-    makeEmptyIfUndefined(list : string[] | undefined) : string[] {
-        if (list === undefined) {
-            return [];
-        }
-        else {
-            return list;
-        }
-    }
+
 
     render() {
+        if (this.state.classes.get(0) !== undefined) {
+            // @ts-ignore
+        }
+
         // @ts-ignore
         return (
             <div className="App">
@@ -87,8 +109,8 @@ class App extends React.Component<{}, AppState> {
                     </div>
                 </div>
                 {this.renderDatePickerIfThereIsAClass()}
-                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd} id={index} assignments={this.makeEmptyIfUndefined(this.state.assignments.get(index))}/>)}
-                <AddClassButton buttonClick={this.buttonClick}/>
+                {Array.from(Array(this.state.numClasses)).map((x, index) => <ClassWeek assignmentAdd={this.assignmentAdd} selectedDate={this.state.date} classNum={index} assignments={this.makeMapEmptyIfUndefined(this.state.classes.get(index))}/>)}
+                <AddClassButton buttonClick={this.addClass}/>
             </div>
         );
     }
